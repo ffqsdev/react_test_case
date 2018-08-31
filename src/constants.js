@@ -1,0 +1,3 @@
+export const ASYNC_REQUEST = "ASYNC_REQUEST"
+export const ASYNC_SUCCESS = "ASYNC_SUCCESS"
+export const ASYNC_FAILURE = "ASYNC_FAILURE"
