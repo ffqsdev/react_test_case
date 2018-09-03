@@ -11,18 +11,27 @@ class PeopleTable extends Component {
         page: 0,
         perPage: 20,
         sortedBy: "",
+        isReverse: false,
     }
 
-    sortedData = (data, colname, order) => {
+    sortedData = (data, colname, isReverse) => {
         let sortedData = [...data]
         if (colname) {
-            sortedData.sort((a, b) => (""+a[colname]).localeCompare(b[colname]))
+            if (isReverse) {
+                sortedData.sort((a, b) => (""+a[colname]).localeCompare(b[colname]))
+            } else {
+                sortedData.sort((a, b) => (""+b[colname]).localeCompare(a[colname]))
+            }
         }
         return sortedData
     }
 
     changeSorted = (colname) => {
-        this.setState({sortedBy: colname})
+        let state = {sortedBy: colname}
+        if (this.state.sortedBy == colname) {
+            state.isReverse = this.state.isReverse ? false : true
+        }
+        this.setState(state)
     }
 
     changePage = (page) => {
@@ -49,7 +58,7 @@ class PeopleTable extends Component {
 
     renderTable = () => {
         const { data, isFetching, error } = this.props.peopleTable
-        const { page, perPage, sortedBy } = this.state
+        const { page, perPage, sortedBy, isReverse} = this.state
 
         if (isFetching) {
             return(
@@ -63,7 +72,7 @@ class PeopleTable extends Component {
             )
         }
 
-        let rows = this.sortedData(data, sortedBy).map((item, index) => {
+        let rows = this.sortedData(data, sortedBy, isReverse).map((item, index) => {
             if (index >= page*perPage && index <= page*perPage + perPage) {
                 return (
                     <tr key={item.id}>
