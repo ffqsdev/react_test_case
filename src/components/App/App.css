@@ -1,0 +1,11 @@
+.pagination {
+    flex-wrap: wrap;
+}
+.user__widget {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+.user__widget_text-box {
+    text-align: right;
+}

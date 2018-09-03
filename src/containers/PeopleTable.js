@@ -28,7 +28,7 @@ class PeopleTable extends Component {
 
     changeSorted = (colname) => {
         let state = {sortedBy: colname}
-        if (this.state.sortedBy == colname) {
+        if (this.state.sortedBy === colname) {
             state.isReverse = this.state.isReverse ? false : true
         }
         this.setState(state)
@@ -83,6 +83,7 @@ class PeopleTable extends Component {
                     </tr>
                 )
             }
+            return null
         })
 
         return(

@@ -1,33 +1,39 @@
 import getActionNames from "../utils/actionNames"
 
+import { auth } from "../firebase"
+
 
 const names = getActionNames("LOGIN")
+const user_names = getActionNames("USER")
 
 export function authUser(username, password) {
     return (dispath) => {
-        const valid_username = "admin",
-              valid_password = "12345"
-
         dispath({
             type: names.request
         })
 
-        setTimeout(() => {
-            if (username === valid_username &&
-                password === valid_password) {
-
+        auth.authUser(username, password)
+            .then(response => {
                 dispath({
                     type: names.success
                 })
 
+                console.log(response)
+
                 localStorage.setItem("isAuth", true)
-            } else {
+
+                let user = response.user
+                dispath({
+                    type: user_names.success,
+                    payload: {id: user.uid, nickname: user.email}
+                })
+            })
+            .catch(error => {
                 dispath({
                     type: names.failure,
                     error: true,
-                    payload: new Error("invalid username or password")
+                    payload: new Error(error.message)
                 })
-            }
-        }, 2000)
+            })
     }
 }

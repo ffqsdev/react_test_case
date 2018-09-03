@@ -1,25 +1,16 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
 
-import { authUser } from "../actions/LoginFormActions"
-import isAuth from "../utils/isAuth"
-
-import { INDEX_PAGE } from "../constants/routes"
+import { registerUser } from "../actions/RegisterFormActions"
 
 import { Button, Form, FormGroup, Input } from "reactstrap"
 
 
-class LoginForm extends Component {
-
+class RegisterForm extends Component {
     state = {
         username: "",
-        password: ""
-    }
-
-    componentWillMount() {
-        if (isAuth()) {
-            this.props.history.push(INDEX_PAGE)
-        }
+        password: "",
+        confirm_password: ""
     }
 
     changeText = e => {
@@ -30,20 +21,20 @@ class LoginForm extends Component {
     handleSubmitForm = e => {
         e.preventDefault()
 
-        const {username, password} = this.state
+        const {username, password, confirm_password} = this.state
 
-        this.props.authUser(username, password)
+        this.props.registerUser(username, password, confirm_password)
     }
 
     isDisabledForm = () => {
-        if (this.props.loginForm.isFetching) {
+        if (this.props.registerForm.isFetching) {
             return true
         }
         return false
     }
 
     renderStatus = () => {
-        const {isFetching, error} = this.props.loginForm
+        const {isFetching, error} = this.props.registerForm
 
         if (isFetching) {
             return (
@@ -58,10 +49,10 @@ class LoginForm extends Component {
     }
 
     render() {
-        const {username, password} = this.state
+        const {username, password, confirm_password} = this.props
 
-        return(
-            <div className="login__form">
+        return (
+            <div className="register__form">
                 {this.renderStatus()}
                 <Form>
                     <FormGroup>
@@ -80,10 +71,18 @@ class LoginForm extends Component {
                             placeholder="password"
                             value={password} />
                     </FormGroup>
+                    <FormGroup>
+                        <Input
+                            onChange={this.changeText}
+                            name="confirm_password"
+                            type="text"
+                            placeholder="confirm_password"
+                            value={confirm_password} />
+                    </FormGroup>
                     <Button 
                         onClick={this.handleSubmitForm}
                         disabled={this.isDisabledForm()}
-                        color="primary">SignIn</Button>
+                        color="primary">SignUp</Button>
                 </Form>
             </div>
         )
@@ -93,14 +92,15 @@ class LoginForm extends Component {
 
 const mapStateToProps = store => {
     return {
-        loginForm: store.loginForm
+        registerForm: store.registerForm
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        authUser: (username, password) => dispatch(authUser(username, password))
+        registerUser: (username, password, confirm_password) => 
+            dispatch(registerUser(username, password, confirm_password))
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginForm)
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterForm)

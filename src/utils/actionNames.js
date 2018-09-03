@@ -2,7 +2,7 @@ import {
     ASYNC_REQUEST,
     ASYNC_SUCCESS,
     ASYNC_FAILURE
-} from "../constants"
+} from "../constants/actions"
 
 
 export default function getActionNames(name) {
