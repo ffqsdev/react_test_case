@@ -10,6 +10,7 @@ class MainMenu extends Component {
         return(
             <Nav className="main__menu">
                 <NavItem><Link className="nav-link" to="/">Home</Link></NavItem>
+                <NavItem><Link className="nav-link" to="/login">Sign In</Link></NavItem>
             </Nav>
         )
     }

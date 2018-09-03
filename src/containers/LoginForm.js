@@ -1,7 +1,9 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
+import { Redirect } from "react-router-dom"
 
 import { authUser } from "../actions/LoginFormActions"
+import isAuth from "../utils/isAuth"
 
 import { Button, Form, FormGroup, Input } from "reactstrap"
 
@@ -53,6 +55,8 @@ class LoginForm extends Component {
 
         return(
             <div className="login__form">
+                {isAuth() && <Redirect to="/" />}
+                
                 {this.renderStatus()}
                 <Form>
                     <FormGroup>
