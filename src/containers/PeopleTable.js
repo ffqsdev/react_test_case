@@ -33,12 +33,12 @@ class PeopleTable extends Component {
         const { data } = this.props.peopleTable
         const { page, perPage } = this.state
 
-        let pages = Math.trunc(data.length/perPage)
+        let pages = Math.ceil(data.length/perPage)
 
         let template = []
         for(let i = 0; i < pages; i++) {
             template.push((
-                <PaginationItem key={i} active={i == page}>
+                <PaginationItem key={i} active={i === page}>
                     <PaginationLink href="#" onClick={() => this.changePage(i)}>{i + 1}
                     </PaginationLink>
                 </PaginationItem>
@@ -64,7 +64,7 @@ class PeopleTable extends Component {
         }
 
         let rows = this.sortedData(data, sortedBy).map((item, index) => {
-            if (index >= page*perPage && index < page*perPage + perPage) {
+            if (index >= page*perPage && index <= page*perPage + perPage) {
                 return (
                     <tr key={item.id}>
                         <td>{index + 1}</td>

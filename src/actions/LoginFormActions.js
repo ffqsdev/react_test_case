@@ -13,8 +13,8 @@ export function authUser(username, password) {
         })
 
         setTimeout(() => {
-            if (username == valid_username &&
-                password == valid_password) {
+            if (username === valid_username &&
+                password === valid_password) {
 
                 dispath({
                     type: names.success
