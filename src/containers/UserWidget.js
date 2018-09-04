@@ -5,14 +5,13 @@ import { Link } from 'react-router-dom'
 import { LOGIN_PAGE, REGISTER_PAGE } from "../constants/routes"
 
 import { getUserData, logoutUser } from "../actions/UserActions"
-import isAuth from "../utils/isAuth"
 
 import { Row, Col, Media, Button } from "reactstrap"
 
 
 class UserWidget extends Component {
 
-    componentWillMount() {
+    componentDidMount() {
         this.props.getUserData()
     }
 
@@ -32,12 +31,13 @@ class UserWidget extends Component {
             return (<p>Error: {error.message}</p>)
         }
 
-        if (isAuth()) {
+        if (data.uid) {
             return (
                 <Fragment>
                     <Media data-src="" alt=""/>
                     <div className="user__widget_text-box">
-                        <h3>{data.nickname}</h3>
+                        <p>{data.id}</p>
+                        <h3>{data.email}</h3>
                         <Button 
                             onClick={this.logOut}
                             color="danger">SignOut</Button>

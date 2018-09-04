@@ -18,14 +18,13 @@ export function authUser(username, password) {
                     type: names.success
                 })
 
-                console.log(response)
-
-                localStorage.setItem("isAuth", true)
-
                 let user = response.user
+
+                localStorage.setItem("user_uid", user.uid)
+
                 dispath({
                     type: user_names.success,
-                    payload: {id: user.uid, nickname: user.email}
+                    payload: user
                 })
             })
             .catch(error => {

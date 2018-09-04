@@ -1,8 +1,8 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
+import { Redirect } from "react-router-dom"
 
 import { authUser } from "../actions/LoginFormActions"
-import isAuth from "../utils/isAuth"
 
 import { INDEX_PAGE } from "../constants/routes"
 
@@ -14,12 +14,6 @@ class LoginForm extends Component {
     state = {
         username: "",
         password: ""
-    }
-
-    componentWillMount() {
-        if (isAuth()) {
-            this.props.history.push(INDEX_PAGE)
-        }
     }
 
     changeText = e => {
@@ -63,6 +57,7 @@ class LoginForm extends Component {
         return(
             <div className="login__form">
                 {this.renderStatus()}
+                {this.props.user.data.uid && <Redirect to={INDEX_PAGE} />}
                 <Form>
                     <FormGroup>
                         <Input
@@ -80,7 +75,8 @@ class LoginForm extends Component {
                             placeholder="password"
                             value={password} />
                     </FormGroup>
-                    <Button 
+                    <Button
+                        type="submit"
                         onClick={this.handleSubmitForm}
                         disabled={this.isDisabledForm()}
                         color="primary">SignIn</Button>
@@ -93,6 +89,7 @@ class LoginForm extends Component {
 
 const mapStateToProps = store => {
     return {
+        user: store.user,
         loginForm: store.loginForm
     }
 }

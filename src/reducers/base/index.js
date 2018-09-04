@@ -9,7 +9,7 @@ export const baseReducer = (reducerName, initialState, action) =>  {
             case names.request:
                 return {...state, isFetching: true, error: ""}
             case names.success:
-                return {...state, isFetching: false, data: action.payload}
+                return {...state, isFetching: false, data: action.payload ? action.payload : state.data}
             case names.failure:
                 return {...state, isFetching: false, error: action.payload}
             default:

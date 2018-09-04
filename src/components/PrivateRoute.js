@@ -1,11 +1,13 @@
 import React from "react"
 import { Route, Redirect } from "react-router-dom"
 
-import isAuth from "../utils/isAuth"
+import { LOGIN_PAGE } from "../constants/routes"
+
+import getCurrentUserId from "../utils/isAuth"
 
 
 export const PrivateRoute = ({component: Component, ...rest}) => (
     <Route {...rest} render={(props) => (
-        isAuth() ? <Component {...props} /> : <Redirect to="/login" />
+        getCurrentUserId() ? <Component {...props} /> : <Redirect to={LOGIN_PAGE} />
     )} />
 )

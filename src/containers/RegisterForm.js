@@ -1,7 +1,10 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
+import { Redirect } from "react-router-dom"
 
 import { registerUser } from "../actions/RegisterFormActions"
+
+import { INDEX_PAGE } from "../constants/routes"
 
 import { Button, Form, FormGroup, Input } from "reactstrap"
 
@@ -54,6 +57,7 @@ class RegisterForm extends Component {
         return (
             <div className="register__form">
                 {this.renderStatus()}
+                {this.props.user.data.uid && <Redirect to={INDEX_PAGE} />}
                 <Form>
                     <FormGroup>
                         <Input
@@ -79,7 +83,8 @@ class RegisterForm extends Component {
                             placeholder="confirm_password"
                             value={confirm_password} />
                     </FormGroup>
-                    <Button 
+                    <Button
+                        type="submit"
                         onClick={this.handleSubmitForm}
                         disabled={this.isDisabledForm()}
                         color="primary">SignUp</Button>
@@ -92,7 +97,8 @@ class RegisterForm extends Component {
 
 const mapStateToProps = store => {
     return {
-        registerForm: store.registerForm
+        registerForm: store.registerForm,
+        user: store.user
     }
 }
 

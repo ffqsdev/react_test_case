@@ -1,6 +1,3 @@
-export default function isAuth() {
-    if (localStorage.getItem("isAuth")) {
-        return true
-    }
-    return false
+export default function getCurrentUserId() {
+    return localStorage.getItem("user_uid")
 }

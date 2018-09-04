@@ -1,17 +1,19 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
 
-import { createPeople } from "../actions/PeopleFormActions"
-
 import { Button, Form, FormGroup, Input } from "reactstrap"
 
 
 class PeopleForm extends Component {
 
-    state = {
-        name: "",
-        gender: "",
-        age: ""
+    constructor(props) {
+        super(props)
+        this.state = {
+            id: props.id ? props.id : null,
+            name: props.name ? props.name : "",
+            gender: props.gender ? props.gender : "male",
+            age: props.age ? props.age : ""
+        }
     }
 
     changeText = e => {
@@ -21,10 +23,7 @@ class PeopleForm extends Component {
 
     handleSubmitForm = e => {
         e.preventDefault()
-
-        const {name, gender, age} = this.state
-
-        this.props.createPeople(name, gender, age)
+        this.props.submitHandler(this.state)
     }
 
     isDisabledForm = () => {
@@ -50,7 +49,7 @@ class PeopleForm extends Component {
     }
 
     render() {
-        const {name, gender, age} = this.state
+        const { name, gender, age } = this.state
 
         return(
             <div className="people__form">
@@ -82,10 +81,11 @@ class PeopleForm extends Component {
                             placeholder="age"
                             value={age} />
                     </FormGroup>
-                    <Button 
+                    <Button
+                        type="submit"
                         onClick={this.handleSubmitForm}
                         disabled={this.isDisabledForm()}
-                        color="success">Create</Button>
+                        color="success">{this.props.buttonText}</Button>
                 </Form>
             </div>
         )
@@ -99,13 +99,4 @@ const mapStateToProps = store => {
     }
 }
 
-const mapDispatchToProps = dispatch => {
-    return {
-        createPeople: (name, gender, age) =>
-            dispatch(createPeople(name, gender, age)),
-        // updatePeople: (name, gender, age) =>
-        //     dispatch(updatePeople(name, gender, age))
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(PeopleForm)
+export default connect(mapStateToProps)(PeopleForm)

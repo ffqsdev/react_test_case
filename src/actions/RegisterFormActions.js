@@ -4,6 +4,7 @@ import { auth } from "../firebase"
 
 
 const names = getActionNames("REGISTER")
+const user_names = getActionNames("USER")
 
 export function registerUser(username, password, confirm_password) {
     return (dispath) => {
@@ -20,11 +21,18 @@ export function registerUser(username, password, confirm_password) {
         }
 
         auth.createUser(username, password)
-            .then(authUser => {
-                console.log(authUser)
+            .then(response => {
                 dispath({
-                    type: names.success,
-                    payload: authUser
+                    type: names.success
+                })
+                
+                let user = response.user
+
+                localStorage.setItem("user_uid", user.uid)
+
+                dispath({
+                    type: user_names.success,
+                    payload: user
                 })
             })
             .catch(error => {

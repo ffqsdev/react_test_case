@@ -3,7 +3,8 @@ import { baseReducer } from "./base"
 
 const initialState = {
     data: {
-        nickname: "Anonymous"
+        uid: null,
+        email: ""
     },
     isFetching: false,
     error: ""
