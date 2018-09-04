@@ -76,7 +76,7 @@ class LoginForm extends Component {
                         <Input
                             onChange={this.changeText}
                             name="password"
-                            type="text"
+                            type="password"
                             placeholder="password"
                             value={password} />
                     </FormGroup>

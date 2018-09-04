@@ -1,16 +1,17 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
 
-import { registerUser } from "../actions/RegisterFormActions"
+import { createPeople } from "../actions/PeopleFormActions"
 
 import { Button, Form, FormGroup, Input } from "reactstrap"
 
 
-class RegisterForm extends Component {
+class PeopleForm extends Component {
+
     state = {
-        username: "",
-        password: "",
-        confirm_password: ""
+        name: "",
+        gender: "",
+        age: ""
     }
 
     changeText = e => {
@@ -21,20 +22,20 @@ class RegisterForm extends Component {
     handleSubmitForm = e => {
         e.preventDefault()
 
-        const {username, password, confirm_password} = this.state
+        const {name, gender, age} = this.state
 
-        this.props.registerUser(username, password, confirm_password)
+        this.props.createPeople(name, gender, age)
     }
 
     isDisabledForm = () => {
-        if (this.props.registerForm.isFetching) {
+        if (this.props.peopleForm.isFetching) {
             return true
         }
         return false
     }
 
     renderStatus = () => {
-        const {isFetching, error} = this.props.registerForm
+        const {isFetching, error} = this.props.peopleForm
 
         if (isFetching) {
             return (
@@ -49,40 +50,42 @@ class RegisterForm extends Component {
     }
 
     render() {
-        const {username, password, confirm_password} = this.props
+        const {name, gender, age} = this.state
 
-        return (
-            <div className="register__form">
+        return(
+            <div className="people__form">
                 {this.renderStatus()}
                 <Form>
                     <FormGroup>
                         <Input
                             onChange={this.changeText}
-                            name="username"
+                            name="name"
                             type="text"
-                            placeholder="username"
-                            value={username} />
+                            placeholder="name"
+                            value={name} />
                     </FormGroup>
                     <FormGroup>
                         <Input
                             onChange={this.changeText}
-                            name="password"
-                            type="password"
-                            placeholder="password"
-                            value={password} />
+                            name="gender"
+                            type="select"
+                            value={gender}>
+                            <option>male</option>
+                            <option>female</option>
+                        </Input>
                     </FormGroup>
                     <FormGroup>
                         <Input
                             onChange={this.changeText}
-                            name="confirm_password"
-                            type="password"
-                            placeholder="confirm_password"
-                            value={confirm_password} />
+                            name="age"
+                            type="text"
+                            placeholder="age"
+                            value={age} />
                     </FormGroup>
                     <Button 
                         onClick={this.handleSubmitForm}
                         disabled={this.isDisabledForm()}
-                        color="primary">SignUp</Button>
+                        color="success">Create</Button>
                 </Form>
             </div>
         )
@@ -92,15 +95,17 @@ class RegisterForm extends Component {
 
 const mapStateToProps = store => {
     return {
-        registerForm: store.registerForm
+        peopleForm: store.peopleForm
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        registerUser: (username, password, confirm_password) => 
-            dispatch(registerUser(username, password, confirm_password))
+        createPeople: (name, gender, age) =>
+            dispatch(createPeople(name, gender, age)),
+        // updatePeople: (name, gender, age) =>
+        //     dispatch(updatePeople(name, gender, age))
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(RegisterForm)
+export default connect(mapStateToProps, mapDispatchToProps)(PeopleForm)

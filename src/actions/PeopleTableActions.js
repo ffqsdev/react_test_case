@@ -12,20 +12,28 @@ export const getPeopleTableData = (actionName, url) => {
             type: names.request
         })
 
-        database.getPeopleData().once("value")
-            .then(response => {
+        try {
+            database.getPeopleData().on("value", function(response) {
+                let object_data = response.val(),
+                        array_data = []
+
+                for (let key in object_data) {
+                    array_data.push(object_data[key])
+                    array_data[array_data.length - 1 ].id = key
+                }
+
                 dispath({
                     type: names.success,
-                    payload: response.val()
+                    payload: array_data
                 })
             })
-            .catch(error => {
-                dispath({
-                    type: names.failure,
-                    error: true,
-                    payload: new Error(error.message)
-                })
+        } catch(error) {
+            dispath({
+                type: names.failure,
+                error: true,
+                payload: new Error(error.message)
             })
+        }
     }
 }
 

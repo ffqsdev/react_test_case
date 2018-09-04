@@ -3,7 +3,8 @@ import { connect } from "react-redux"
 
 import { getPeopleTableData } from "../actions/PeopleTableActions"
 
-import { Table, Pagination, PaginationItem, PaginationLink } from "reactstrap"
+import PeopleForm from "./PeopleForm"
+import { Table, Pagination, PaginationItem, PaginationLink, Button } from "reactstrap"
 
 
 class PeopleTable extends Component {
@@ -12,16 +13,20 @@ class PeopleTable extends Component {
         perPage: 20,
         sortedBy: "",
         isReverse: false,
+        showForm: false
+    }
+
+    showForm = () => {
+        this.setState({showForm: true})
     }
 
     sortedData = (data, colname, isReverse) => {
         let sortedData = [...data]
         if (colname) {
-            if (isReverse) {
-                sortedData.sort((a, b) => (""+a[colname]).localeCompare(b[colname]))
-            } else {
-                sortedData.sort((a, b) => (""+b[colname]).localeCompare(a[colname]))
-            }
+            sortedData.sort((a, b) => (a[colname]).localeCompare(b[colname]))
+        }
+        if (isReverse) {
+            sortedData = sortedData.reverse()
         }
         return sortedData
     }
@@ -80,6 +85,7 @@ class PeopleTable extends Component {
                         <td>{item.name}</td>
                         <td>{item.gender}</td>
                         <td>{item.age}</td>
+                        <td><Button color="primary">Edit</Button></td>
                     </tr>
                 )
             }
@@ -95,6 +101,7 @@ class PeopleTable extends Component {
                             <th onClick={() => this.changeSorted("name")}>Name</th>
                             <th onClick={() => this.changeSorted("gender")}>Gender</th>
                             <th onClick={() => this.changeSorted("age")}>Age</th>
+                            <th><Button onClick={this.showForm} color="success">+ Add</Button></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -110,9 +117,12 @@ class PeopleTable extends Component {
 
     render() {
         return(
-            <div className="people__table">
-                {this.renderTable()}
-            </div>
+            <Fragment>
+                {this.state.showForm && <PeopleForm />}
+                <div className="people__table">
+                    {this.renderTable()}
+                </div>
+            </Fragment>
         )
     }
 

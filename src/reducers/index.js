@@ -4,6 +4,7 @@ import { peopleTableReducer } from "./peopleTable"
 import { userReducer } from "./user"
 import { loginFormReducer } from "./loginForm"
 import { registerFormReducer } from "./registerForm"
+import { peopleFormReducer } from "./peopleForm"
 
 
 export const rootReducer = combineReducers({
@@ -11,4 +12,5 @@ export const rootReducer = combineReducers({
     user: userReducer,
     loginForm: loginFormReducer,
     registerForm: registerFormReducer,
+    peopleForm: peopleFormReducer,
 })

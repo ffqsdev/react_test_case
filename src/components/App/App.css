@@ -9,3 +9,12 @@
 .user__widget_text-box {
     text-align: right;
 }
+
+.people__table table tr th,
+.people__table table tr td {
+    vertical-align: middle;
+}
+
+.people__form {
+    padding: 16px 0;
+}
